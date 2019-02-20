@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import moment from "moment";
 import "./App.css";
-import jquery from 'jquery';
-const $ = window.$ = window.jQuery = jquery;
 
 class TodoList extends React.Component {
   render() {
-    var items = this.props.items.map((item, index) => {
+    let items = this.props.items.map((item, index) => {
       return (
         <TodoListItem
           key={index}
@@ -17,7 +15,7 @@ class TodoList extends React.Component {
         />
       );
     });
-    return <ul className="list-group"> {items} </ul>;
+    return <ul className="list-group">{items}</ul>;
   }
 }
 
@@ -28,17 +26,17 @@ class TodoListItem extends React.Component {
     this.onClickDone = this.onClickDone.bind(this);
   }
   onClickClose() {
-    var index = parseInt(this.props.index);
+    let index = parseInt(this.props.index);
     this.props.removeItem(index);
   }
   onClickDone() {
-    var index = parseInt(this.props.index);
+    let index = parseInt(this.props.index);
     this.props.markTodoDone(index);
   }
   render() {
-    var todoClass = this.props.item.done ? "todoItem done" : "todoItem undone";
+    let todoClass = this.props.item.done ? "todoItem done" : "todoItem undone";
     return (
-      <li className="list-group-item ">
+      <li className="list-group-item">
         <div className={todoClass}>
           <span
             className="glyphicon glyphicon-ok icon"
@@ -46,7 +44,7 @@ class TodoListItem extends React.Component {
             onClick={this.onClickDone}
           />
           <span>{this.props.item.value}</span>
-          <span class='date'>{`Added: ${this.props.item.date}`}</span>
+          <span className="date">{`Added: ${this.props.item.date}`}</span>
           <button type="button" className="close" onClick={this.onClickClose}>
             &times;
           </button>
@@ -62,15 +60,15 @@ class TodoForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
   componentDidMount() {
-    $("#itemName").focus();
+    this.itemNameRef.focus();
   }
   onSubmit(event) {
     event.preventDefault();
-    var newItemValue = $("#itemName").val();
+    let newItemValue = this.itemNameRef.value;
 
     if (newItemValue) {
       this.props.addItem({ newItemValue });
-      $('#todoForm').trigger("reset");
+      this.refs.form.reset();
     }
   }
   render() {
@@ -78,6 +76,7 @@ class TodoForm extends React.Component {
       <form ref="form" id="todoForm" onSubmit={this.onSubmit} className="form-inline">
         <input
           type="text"
+          ref={e => this.itemNameRef = e}
           id="itemName"
           className="form-control"
           placeholder="add a new todo..."
@@ -96,13 +95,12 @@ class Timer extends React.Component {
 
   updateTimer = () => {
     this.setState({
-      count: this.state.count += 1
+      count: this.state.count + 1
     });
   }
 
   componentDidMount = () => {
-    const that = this;
-    that.timer = setInterval(that.updateTimer, 1000);
+    this.timer = setInterval(this.updateTimer, 1000);
   }
 
   render = () => {
@@ -116,8 +114,8 @@ class Timer extends React.Component {
 }
 
 class TodoHeader extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   render() {
@@ -135,7 +133,7 @@ class TodoApp extends React.Component {
   }
 
   addItem(todoItem) {
-    var todoItems = this.state.todoItems;
+    let todoItems = this.state.todoItems;
     todoItems.unshift({
       index: todoItems.length + 1,
       value: todoItem.newItemValue,
@@ -146,14 +144,14 @@ class TodoApp extends React.Component {
   }
 
   removeItem(itemIndex) {
-    var todoItems = this.state.todoItems;
+    let todoItems = this.state.todoItems;
     todoItems.splice(itemIndex, 1);
     this.setState({ todoItems: todoItems });
   }
 
   markTodoDone(itemIndex) {
     const todoItems = this.state.todoItems;
-    var todo = todoItems[itemIndex];
+    let todo = todoItems[itemIndex];
     todoItems.splice(itemIndex, 1);
     todo.done = !todo.done;
     todo.done ? todoItems.push(todo) : todoItems.unshift(todo);
