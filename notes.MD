@@ -54,6 +54,7 @@ onSubmit(event) {
 ```
 
 In Timer Component,
+
 From
 ```
 updateTimer = () => {
