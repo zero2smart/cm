@@ -2,6 +2,16 @@
 # Front End Refactoring Challenge
 
 In TodoForm component, I converted jquery to ref.
+From
+```
+<input
+    type="text"
+    id="itemName"
+    className="form-control"
+    placeholder="add a new todo..."
+/>
+```
+To
 ```
 <input
     type="text"
