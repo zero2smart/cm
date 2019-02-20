@@ -22,13 +22,56 @@ To
     placeholder="add a new todo..." />
 ```
 
-Notes:
-- Clone this repo.  `npm install`, then `npm start` to get your development environment running.
+From
+```
+componentDidMount() {
+    $("#itemName").focus();
+}
+onSubmit(event) {
+    event.preventDefault();
+    var newItemValue = $("#itemName").val();
 
-- This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+    if (newItemValue) {
+      this.props.addItem({ newItemValue });
+      $('#todoForm').trigger("reset");
+    }
+}
+```
+To
+```
+componentDidMount() {
+    this.itemNameRef.focus();
+}
+onSubmit(event) {
+    event.preventDefault();
+    let newItemValue = this.itemNameRef.value;
 
-- You call the shots on what you think is best on how to improve this project.  But **do not add or remove any features**.
+    if (newItemValue) {
+      this.props.addItem({ newItemValue });
+      this.refs.form.reset();
+    }
+}
+```
 
-- Again, **don't worry about styling or CSS**. Just focus on JavaScript and React.
+In Timer Component,
+From
+```
+updateTimer = () => {
+    this.setState({
+      count: this.state.count += 1
+    });
+}
+```
+To
+```
+updateTimer = () => {
+    this.setState({
+      count: this.state.count + 1
+    });
+}
+```
 
-- Feel free to add notes your cloned repo to explain your thought process.
+Removed in App.js
+```
+const $ = window.$ = window.jQuery = jquery;
+```
